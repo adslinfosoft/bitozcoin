@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/bitoz_bg.qm</file>
+        <file alias="de">locale/bitoz_de.qm</file>
+        <file alias="en">locale/bitoz_en.qm</file>
+        <file alias="es">locale/bitoz_es.qm</file>
+        <file alias="fi">locale/bitoz_fi.qm</file>
+        <file alias="fr">locale/bitoz_fr.qm</file>
+        <file alias="it">locale/bitoz_it.qm</file>
+        <file alias="ja">locale/bitoz_ja.qm</file>
+        <file alias="pl">locale/bitoz_pl.qm</file>
+        <file alias="pt">locale/bitoz_pt.qm</file>
+        <file alias="ru">locale/bitoz_ru.qm</file>
+        <file alias="sk">locale/bitoz_sk.qm</file>
+        <file alias="sv">locale/bitoz_sv.qm</file>
+        <file alias="vi">locale/bitoz_vi.qm</file>
+        <file alias="zh_CN">locale/bitoz_zh_CN.qm</file>
+        <file alias="zh_TW">locale/bitoz_zh_TW.qm</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Bitoz
+Comment=Bitoz P2P Cryptocurrency
+Comment[fr]=Bitoz, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Bitoz, eşten eşe kriptografik sanal para birimi
+Exec=bitoz-qt %u
+Terminal=false
+Type=Application
+Icon=bitoz128
+MimeType=x-scheme-handler/bitoz;
+Categories=Office;Finance;

@@ -1,0 +1,11 @@
+[Protocol]
+exec=bitoz-qt '%u'
+protocol=bitoz
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false
