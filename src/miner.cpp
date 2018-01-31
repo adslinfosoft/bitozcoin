@@ -424,13 +424,19 @@ void static BitcoinMiner(const CChainParams& chainparams, CConnman& connman)
                 // on an obsolete chain. In regtest mode we expect to fly solo.
                 do {
                     bool fvNodesEmpty = connman.GetNodeCount(CConnman::CONNECTIONS_ALL) == 0;
-                    if (!fvNodesEmpty && !IsInitialBlockDownload() && masternodeSync.IsSynced())
+
+LogPrintf("fvNodesEmpty:  %u  IsInitialBlockDownload:  %d  masternodeSync: %d \n", fvNodesEmpty, IsInitialBlockDownload(), masternodeSync.IsSynced());
+
+                    if (!fvNodesEmpty && !IsInitialBlockDownload() && masternodeSync.IsSynced()) {
                         break;
+                    } else {
+                        LogPrintf("Miner.cpp:: Find node 0 or initial block not downloaded or masternode not sync\n");
+                    }
                     MilliSleep(1000);
                 } while (true);
             }
 
-
+            LogPrintf("create new block\n");
             //
             // Create new block
             //
