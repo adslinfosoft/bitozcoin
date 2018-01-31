@@ -23,8 +23,8 @@ packages:
 - "python"
 reference_datetime: "2017-01-01 00:00:00"
 remotes:
-- "url": "https://github.com/bitozpay/bitoz.git"
-  "dir": "bitoz"
+- "url": "https://github.com/adslinfosoft/bitozcoin.git"
+  "dir": "bitozcoin"
 files: []
 script: |
   WRAP_DIR=$HOME/wrapped
@@ -94,7 +94,7 @@ script: |
 
   export PATH=${WRAP_DIR}:${PATH}
 
-  cd bitoz
+  cd bitozcoin
   BASEPREFIX=`pwd`/depends
   # Build dependencies for each host
   for i in $HOSTS; do
