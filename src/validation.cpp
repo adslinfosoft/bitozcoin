@@ -1299,24 +1299,16 @@ bool IsInitialBlockDownload()
     static bool lockIBDState = false;
     if (lockIBDState)
         return false;
-    if (fImporting || fReindex) {
-        LogPrintf("IsInitialBlockDownload:: fImporting || fReindex\n");
+    if (fImporting || fReindex)
         return true;
-    }
     LOCK(cs_main);
     const CChainParams& chainParams = Params();
-    if (chainActive.Tip() == NULL) {
-        LogPrintf("IsInitialBlockDownload:: chainActive.Tip() == NULL\n");
+    if (chainActive.Tip() == NULL)
         return true;
-    }
-    if (chainActive.Tip()->nChainWork < UintToArith256(chainParams.GetConsensus().nMinimumChainWork)) {
-        LogPrintf("IsInitialBlockDownload:: chainActive.Tip()->nChainWork < UintToArith256(chainParams.GetConsensus().nMinimumChainWork) nChainWork:: %u\n", chainParams.GetConsensus().nMinimumChainWork);
+    if (chainActive.Tip()->nChainWork < UintToArith256(chainParams.GetConsensus().nMinimumChainWork))
         return true;
-    }
-    if (chainActive.Tip()->GetBlockTime() < (GetTime() - chainParams.MaxTipAge())) {
-        LogPrintf("IsInitialBlockDownload:: chainActive.Tip()->GetBlockTime() < (GetTime() - chainParams.MaxTipAge())\n");
+    if (chainActive.Tip()->GetBlockTime() < (GetTime() - chainParams.MaxTipAge()))
         return true;
-    }
     lockIBDState = true;
     return false;
 }
