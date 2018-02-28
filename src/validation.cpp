@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2014-2017 The Adsl Core developers
+// Copyright (c) 2014-2017 The BIToz Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -52,7 +52,7 @@
 using namespace std;
 
 #if defined(NDEBUG)
-# error "Adsl Core cannot be compiled without assertions."
+# error "BIToz Core cannot be compiled without assertions."
 #endif
 
 /**
@@ -1232,13 +1232,9 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     double dDiff;
     CAmount nSubsidyBase;
 
-    if (nPrevHeight <= 4500 && Params().NetworkIDString() == CBaseChainParams::MAIN) {
-        /* a bug which caused diff to not be correctly calculated */
-        dDiff = (double)0x0000ffff / (double)(nPrevBits & 0x00ffffff);
-    } else {
-        dDiff = ConvertBitsToDouble(nPrevBits);
-    }
+    dDiff = ConvertBitsToDouble(nPrevBits);
 
+/*
     if (nPrevHeight < 5465) {
         // Early ages...
         // 1111/((x+1)^2)
@@ -1258,13 +1254,19 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
         if(nSubsidyBase > 25) nSubsidyBase = 25;
         else if(nSubsidyBase < 5) nSubsidyBase = 5;
     }
+*/
+
+    nSubsidyBase = (2222222.0 / (pow((dDiff+1000.0)/9.0,2.0)));
+    if(nSubsidyBase > 39) nSubsidyBase = 39;
+    else if(nSubsidyBase < 5) nSubsidyBase = 5;
 
     // LogPrintf("height %u diff %4.2f reward %d\n", nPrevHeight, dDiff, nSubsidyBase);
     CAmount nSubsidy = nSubsidyBase * COIN;
 
     // yearly decline of production by ~7.1% per year, projected ~18M coins max by year 2050+.
     for (int i = consensusParams.nSubsidyHalvingInterval; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
-        nSubsidy -= nSubsidy/14;
+        //nSubsidy -= nSubsidy/14;
+        nSubsidy = nSubsidy/2;
     }
 
     // Hard fork to reduce the block reward by 10 extra percent (allowing budget/superblocks)
@@ -1868,7 +1870,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("dash-scriptch");
+    RenameThread("bitoz-scriptch");
     scriptcheckqueue.Thread();
 }
 
@@ -2215,7 +2217,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     int64_t nTime3 = GetTimeMicros(); nTimeConnect += nTime3 - nTime2;
     LogPrint("bench", "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs]\n", (unsigned)block.vtx.size(), 0.001 * (nTime3 - nTime2), 0.001 * (nTime3 - nTime2) / block.vtx.size(), nInputs <= 1 ? 0 : 0.001 * (nTime3 - nTime2) / (nInputs-1), nTimeConnect * 0.000001);
 
-    // ADSL : MODIFIED TO CHECK MASTERNODE PAYMENTS AND SUPERBLOCKS
+    // BIToz : MODIFIED TO CHECK MASTERNODE PAYMENTS AND SUPERBLOCKS
 
     // It's possible that we simply don't have enough data and this could fail
     // (i.e. block itself could be a correct one and we need to store it),
@@ -2226,15 +2228,15 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount blockReward = nFees + GetBlockSubsidy(pindex->pprev->nBits, pindex->pprev->nHeight, chainparams.GetConsensus());
     std::string strError = "";
     if (!IsBlockValueValid(block, pindex->nHeight, blockReward, strError)) {
-        return state.DoS(0, error("ConnectBlock(ADSL): %s", strError), REJECT_INVALID, "bad-cb-amount");
+        return state.DoS(0, error("ConnectBlock(BIToz): %s", strError), REJECT_INVALID, "bad-cb-amount");
     }
 
     if (!IsBlockPayeeValid(block.vtx[0], pindex->nHeight, blockReward)) {
         mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
-        return state.DoS(0, error("ConnectBlock(ADSL): couldn't find masternode or superblock payments"),
+        return state.DoS(0, error("ConnectBlock(BIToz): couldn't find masternode or superblock payments"),
                                 REJECT_INVALID, "bad-cb-payee");
     }
-    // END ADSL
+    // END BIToz
 
     if (!control.Wait())
         return state.DoS(100, false);
@@ -3163,7 +3165,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                              REJECT_INVALID, "bad-cb-multiple");
 
 
-    // ADSL : CHECK TRANSACTIONS FOR INSTANTSEND
+    // BIToz : CHECK TRANSACTIONS FOR INSTANTSEND
 
     if(sporkManager.IsSporkActive(SPORK_3_INSTANTSEND_BLOCK_FILTERING)) {
         // We should never accept block which conflicts with completed transaction lock,
@@ -3180,17 +3182,17 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                     // relaying instantsend data won't help it.
                     LOCK(cs_main);
                     mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
-                    return state.DoS(0, error("CheckBlock(ADSL): transaction %s conflicts with transaction lock %s",
+                    return state.DoS(0, error("CheckBlock(BIToz): transaction %s conflicts with transaction lock %s",
                                                 tx.GetHash().ToString(), hashLocked.ToString()),
                                      REJECT_INVALID, "conflict-tx-lock");
                 }
             }
         }
     } else {
-        LogPrintf("CheckBlock(ADSL): spork is off, skipping transaction locking checks\n");
+        LogPrintf("CheckBlock(BIToz): spork is off, skipping transaction locking checks\n");
     }
 
-    // END ADSL
+    // END BIToz
 
     // Check transactions
     BOOST_FOREACH(const CTransaction& tx, block.vtx)
