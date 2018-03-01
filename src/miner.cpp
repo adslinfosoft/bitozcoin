@@ -428,7 +428,7 @@ void static BitcoinMiner(const CChainParams& chainparams, CConnman& connman)
 LogPrintf("fvNodesEmpty:  %u  IsInitialBlockDownload:  %d  masternodeSync: %d \n", fvNodesEmpty, IsInitialBlockDownload(), masternodeSync.IsSynced());
 
                     if (!fvNodesEmpty && !IsInitialBlockDownload() && masternodeSync.IsSynced()) {
-                        break;
+                        //break;
                     } else {
                         LogPrintf("Miner.cpp:: Find node 0 or initial block not downloaded or masternode not sync\n");
                     }

@@ -93,8 +93,8 @@ public:
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256S("0x000007d91d1254d60e2dd1ae580383070a4ddffa4c64c2eeb4a2f9ecc0414343");
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
-        consensus.nPowTargetTimespan = 24 * 60 * 60; // BIToz: 1 day
-        consensus.nPowTargetSpacing = 2.5 * 60; // BIToz: 2.5 minutes
+        consensus.nPowTargetTimespan = 10 * 60 * 60; // BIToz: 10 hours
+        consensus.nPowTargetSpacing = 1 * 60; // BIToz: 1 minutes
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
@@ -116,7 +116,7 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_DIP0001].nThreshold = 3226; // 80% of 4032
 
         // The best chain should have at least this much work.
-        consensus.nMinimumChainWork = uint256S("0000000000000000000000000000000000000000000000000000000000100010"); // 750000
+        consensus.nMinimumChainWork = uint256S("0000000000000000000000000000000000000000000000000000000001200120"); // 750000
 
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00000000000000b4181bbbdddbae464ce11fede5d0292fb63fdede1e7c8ab21c"); //750000
@@ -132,8 +132,8 @@ public:
         pchMessageStart[3] = 0xfd;
         vAlertPubKey = ParseHex("04bd231d8e0f3595bcf5499d54fb51e39a4330021dfe341ca9264e2962cdb1c6afd0bb84a40f796cc3c6343180ea5f04fc524160e78c3d9ebe1aa95faa6db2eae8");
         nDefaultPort = 51321;
-        nMaxTipAge = 400000000; //6 * 60 * 60; // ~144 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
-        nDelayGetHeadersTime = 0; //24 * 60 * 60;
+        nMaxTipAge = 6 * 60 * 60; // ~144 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
+        nDelayGetHeadersTime = 24 * 60 * 60;
         nPruneAfterHeight = 100000;
 
         genesis = CreateGenesisBlock(1519814271, 1995437, 0x1e0ffff0, 1, 50 * COIN);
@@ -172,9 +172,11 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            (  0, uint256S("0x")),
-            1514888273, // * UNIX timestamp of last checkpoint block
-            150,    // * total number of transactions between genesis and last checkpoint
+            (  5, uint256S("0x000006b20b3b34e95f81836fbed5aa536338451e22b3877629f1acbe13cd52ce"))
+            (  10, uint256S("0x00000b80c599dee44b756560db49035bd2d6cb5264e96a1e306cfc892018d099"))
+            (  15, uint256S("0x00000aa41b83b505a4b5a4b2c31f6f3f3df6bfb76524453488e22a514291281e")),
+            1519881483, // * UNIX timestamp of last checkpoint block
+            15,    // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             1500        // * estimated number of transactions per day after checkpoint
         };
