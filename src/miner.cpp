@@ -429,7 +429,7 @@ LogPrintf("fvNodesEmpty:  %u  IsInitialBlockDownload:  %d  masternodeSync: %d \n
 
                     if (!fvNodesEmpty && !IsInitialBlockDownload() && masternodeSync.IsSynced()) {
                         LogPrintf("Miner.cpp:: Find node 0 or initial block not downloaded or masternode fully synced\n");
-                        //break;
+                        break;
                     } else {
                         LogPrintf("Miner.cpp:: Find node 0 or initial block not downloaded or masternode not sync\n");
                     }
