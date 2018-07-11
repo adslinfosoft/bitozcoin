@@ -147,13 +147,6 @@ public:
         
         
         vSeeds.push_back(CDNSSeedData("dash.org", "adslcoin.coinshree.com"));
-        vSeeds.push_back(CDNSSeedData("bitoz.org", "34.217.72.185:51321"));
-        vSeeds.push_back(CDNSSeedData("bit.org", "34.217.72.185"));
-        vSeeds.push_back(CDNSSeedData("bitoz1.org", "54.244.199.141:51321"));
-        vSeeds.push_back(CDNSSeedData("bit1.org", "54.244.199.141"));
-        vSeeds.push_back(CDNSSeedData("bitoz2.org", "127.0.0.1:51321"));
-        vSeeds.push_back(CDNSSeedData("bitoz3.org", "127.0.0.1:51320"));
-        vSeeds.push_back(CDNSSeedData("bit2.org", "127.0.0.1"));
         
         // BIToz addresses start with 'Z'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,80);
